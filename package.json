@@ -4,12 +4,23 @@
   "description": "small app using Forkify API",
   "main": "index.js",
   "dependencies": {
+    "axios": "^0.20.0",
+    "babel-polyfill": "^6.26.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.11.4",
+    "@babel/preset-env": "^7.11.0",
+    "babel-loader": "^8.1.0",
+    "html-webpack-plugin": "^4.3.0",
+    "webpack-dev-server": "^3.11.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --mode development --open"
   },
   "author": "Mohamed Magdy",
   "license": "ISC"
