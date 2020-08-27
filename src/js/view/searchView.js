@@ -1,5 +1,23 @@
 import { elements, limitTitle } from "../model/base"
 
+export const clearResult = () => {
+    elements.resultList.innerHTML = ''
+    elements.resultPage.innerHTML = ''
+}
+
+export const renderRecipes = (recipes, page = 1, limit = 10) => {
+    //pagination , page, direction, limit
+
+    const pages = Math.ceil(recipes.length / limit)
+    const start = (page - 1) * limit
+    const end = limit + start
+    
+    recipes.slice(start, end).forEach(el => renderRecipe(el))
+    paginate(page, pages)
+}
+
+
+/***************** HELPER FUNCTIONS *****************/
 const renderRecipe = recipe => {
     //results__link--active
     const html = `
@@ -18,18 +36,6 @@ const renderRecipe = recipe => {
 
     elements.resultList.insertAdjacentHTML('beforeend', html)
 }
-
-export const renderRecipes = (recipes, page = 1, limit = 10) => {
-    //pagination , page, direction, limit
-
-    const pages = Math.ceil(recipes.length / limit)
-    const start = (page - 1) * limit
-    const end = limit + start
-    
-    recipes.slice(start, end).forEach(el => renderRecipe(el))
-    paginate(page, pages)
-}
-
 
 
 const paginate = (page, pages) => {
@@ -52,6 +58,7 @@ const paginate = (page, pages) => {
     } 
 }
 
+
 const showPaginationBtn = (page, type) => {
     const html = `
         <button class="btn-inline results__btn--${type}" data-goto="${page}">
@@ -62,9 +69,4 @@ const showPaginationBtn = (page, type) => {
         </button>
     `
     elements.resultPage.insertAdjacentHTML('afterbegin', html)
-}
-
-export const clearResult = () => {
-    elements.resultList.innerHTML = ''
-    elements.resultPage.innerHTML = ''
 }

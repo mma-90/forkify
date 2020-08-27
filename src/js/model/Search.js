@@ -9,13 +9,10 @@ export class Search {
 
     async getResult(){
         try {
-
-            const res = await Axios.get(`${config.apiHOST}/search?q=${this.query}`)
-            
+            const res = await Axios.get(`${config.apiHOST.search}${this.query}`)
             this.search = res.data;
 
             //console.log(res);
-
         } catch (error) {
             console.log("Search Processing error",error)
         } 

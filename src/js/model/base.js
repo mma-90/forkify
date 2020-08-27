@@ -4,11 +4,16 @@ export const elements = {
     resultContainer: document.querySelector('.results'),
     resultList: document.querySelector('.results__list'),
     resultPage: document.querySelector('.results__pages'),
+    recipeContainer: document.querySelector('.recipe'),
 
 }
 
 export const elementStrings = {
-    loader : 'loader'
+    loader : 'loader',
+    ingrediantList: 'recipe__ingredient-list',
+    rCount: 'recipe__count',
+    rPeople: 'recipe__info-data--people',
+    rMinute: 'recipe__info-data--minutes',
 }
 
 //show loader
@@ -46,3 +51,5 @@ export const limitTitle = (title, limit = 17) => {
     }
     return title;
 }
+
+export const fomratNumber = num => num.toFixed(2)
