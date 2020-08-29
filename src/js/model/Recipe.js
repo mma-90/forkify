@@ -1,5 +1,6 @@
 import Axios from "axios"
 import { config } from "../config"
+import uniquid from 'uniquid'
 
 export class Recipe {
 
@@ -46,14 +47,14 @@ export class Recipe {
 
         this.ingredients.forEach(el => {
             let ing = {}
-
+        
             el = el.toLowerCase().trim();
             el = el.replace(/ *\([^)]*\) */g, ' ')
             el = el.replace('-', '')
-
+            
             const words = el.split(' ');
             let unitIndex;
-
+            
             //replace ul with us and get the unit index
             words.forEach((word, wIndex) => {
                 unitsLong.forEach((ul, ulIndex) => {
@@ -99,7 +100,8 @@ export class Recipe {
                     }
                 }
             }
-            //console.log(ing);
+
+            ing.id = uniquid()
             newIngrediants.push(ing)
         })
         //EOF main ingrediants loop

@@ -29,7 +29,7 @@ const createFigure = recipe => {
 const createRecipeDetails = recipe => {
 
     const html = `
-        <div class="recipe__details">
+        <div class="recipe__details" data-rid=${recipe.id}>
             <div class="recipe__info">
                 <svg class="recipe__info-icon">
                     <use href="img/icons.svg#icon-stopwatch"></use>
@@ -45,7 +45,7 @@ const createRecipeDetails = recipe => {
                 <span class="recipe__info-data recipe__info-data--people">${recipe.servings}</span>
                 <span class="recipe__info-text"> servings</span>
 
-                <div class="recipe__info-buttons" data-rid=${recipe.id}>
+                <div class="recipe__info-buttons">
                     <button class="btn-tiny btn-min">
                         <svg>
                             <use href="img/icons.svg#icon-circle-with-minus"></use>

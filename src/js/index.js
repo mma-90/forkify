@@ -1,8 +1,12 @@
 import { elements, renderLoader, removeLoader } from './model/base'
 import { Search } from './model/Search'
 import { Recipe } from './model/Recipe'
+import { List } from './model/List'
+import { Like } from './model/Like'
 import * as searchUI from './view/searchView'
 import * as recipeUI from './view/recipeView'
+import * as listUI from './view/listView'
+import * as likeUI from './view/likeView'
 
 //create datastructure
 const state = {}
@@ -57,7 +61,8 @@ const controlSearch = async () => {
 const contorlRecipe = async rID => {
     if (rID) {
         state.recipe = new Recipe(rID)
-        try {
+        
+        try { 
             recipeUI.clearResult()
 
             renderLoader(elements.recipeContainer)
@@ -77,14 +82,47 @@ const contorlRecipe = async rID => {
     }
 }
 
-/*******************
- * LIKE CONTROLLER *
- *******************/
-
 /****************************
  * SHOPPING LIST CONTROLLER *
  ****************************/
+const controlList = ingredinats => {
+    if(!state.list) state.list = new List()
 
+    //
+    ingredinats.forEach(el => {
+        state.list.addItem(el)
+    })
+
+    listUI.clearList()
+    listUI.renderList(ingredinats)
+
+}
+
+
+
+/*******************
+ * LIKE CONTROLLER *
+ *******************/
+const controlLike = rid => {
+    if(!state.like) state.like = new Like()
+    if(rid){
+
+        // presist datastructure
+        //state.like.toggleLike(rid)
+
+        if(state.like.isLiked(rid)){       
+            state.like.unlikeRecipe(rid)
+            likeUI.removeLike(rid)
+        }else{
+            state.like.likeRecipe(rid)
+            likeUI.renderLike(state.recipe)
+        }
+
+        console.log(state.like.like);
+        //ui
+    
+    }
+}
 
 /**************************************** EVENTLISTENER SECTION ********************************/
 
@@ -136,5 +174,34 @@ elements.recipeContainer.addEventListener('click', e => {
         recipeUI.updateRecipeServins(state.recipe)
         //recipeUI.renderRecipe(state.recipe)
     }
+
+    else if (e.target.matches('.recipe__add-btn, .recipe__add-btn *')) {
+        controlList(state.recipe.ingredients)
+    }
+
+    else if (e.target.matches('.recipe__love, .recipe__love *')) {
+        const rid = e.target.closest('button').parentElement.dataset.rid
+        //state.liketoggleLike(rid);
+        controlLike(rid)
+    }
 })
 
+
+//SHOPPING LIST LISTENER
+elements.shoppingList.addEventListener('click', e => {
+    const itemID = e.target.closest('li').dataset.itemid;
+    
+    if(e.target.matches('.shopping__delete, .shopping__delete *')){
+        //del datastructure
+        //const itemID = e.target.closest('li').dataset.itemid;
+        state.list.removeItem(itemID)
+
+        //remove from ui
+        listUI.removeItem(itemID)
+    }
+    
+    else if(e.target.matches('.shopping__count input')){
+        state.list.updateItem(itemID, parseFloat(e.target.value))
+    }
+    
+})
