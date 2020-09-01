@@ -34,3 +34,15 @@ export const removeItem = id => {
     const item = document.querySelector(`[data-itemid="${id}"]`)
     item.parentElement.removeChild(item)
 }
+
+export const deleteAllBtn = () => {
+    const btn = `
+            <button class="btn-small delete-all__btn" style="margin-top:30px">
+                <svg>
+                    <use href="img/icons.svg#icon-squared-cross"></use>
+                </svg>
+                <span>DELETE ALL</span>
+            </button>
+        `
+    elements.shoppingList.insertAdjacentHTML('afterend', btn)
+}

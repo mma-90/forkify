@@ -74,7 +74,7 @@ const createRecipeIngredients = recipe => {
 
     recipe.ingredients.forEach(el => {
         ingHTML += `
-        <li class="recipe__item">
+        <li class="recipe__item" data-ing_id="${el.id}">
             <svg class="recipe__icon">
                 <use href="img/icons.svg#icon-check"></use>
             </svg>

@@ -134,4 +134,14 @@ export class Recipe {
             this.calcTime()
         }
     }
+
+    getIngrediant(id){
+        const index = this.ingredients.findIndex( el => el.id === id)
+        
+        if(index !== -1){
+            return this.ingredients[index]
+        }
+
+        return {};
+    }
 }
