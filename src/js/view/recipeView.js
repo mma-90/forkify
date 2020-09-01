@@ -4,9 +4,9 @@ export const clearResult = () => {
     elements.recipeContainer.innerHTML = ''
 }
 
-export const renderRecipe = recipe => {
+export const renderRecipe = (recipe,isLiked) => {
     createFigure(recipe)
-    createRecipeDetails(recipe)
+    createRecipeDetails(recipe,isLiked)
     createRecipeIngredients(recipe)
     createRecipeDirections(recipe)
 
@@ -26,7 +26,7 @@ const createFigure = recipe => {
     elements.recipeContainer.insertAdjacentHTML('beforeend', html)
 }
 
-const createRecipeDetails = recipe => {
+const createRecipeDetails = (recipe,isLiked) => {
 
     const html = `
         <div class="recipe__details" data-rid=${recipe.id}>
@@ -60,7 +60,7 @@ const createRecipeDetails = recipe => {
             </div>
             <button class="recipe__love">
                 <svg class="header__likes">
-                    <use href="img/icons.svg#icon-heart-outlined"></use>
+                    <use href="img/icons.svg#icon-heart${isLiked ? '' : '-outlined'}" data-likeItem=${recipe.id}></use>
                 </svg>
             </button>
         </div>

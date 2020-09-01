@@ -73,7 +73,8 @@ const contorlRecipe = async rID => {
 
             removeLoader()
 
-            recipeUI.renderRecipe(state.recipe)
+            const flag = state.like.like ? state.like.isLiked(state.recipe) : false
+            recipeUI.renderRecipe(state.recipe, flag)
 
         } catch (error) {
             console.log("Recipe controlling error", error)
@@ -103,24 +104,23 @@ const controlList = ingredinats => {
 /*******************
  * LIKE CONTROLLER *
  *******************/
-const controlLike = rid => {
+const controlLike = recipe => {
     if(!state.like) state.like = new Like()
-    if(rid){
 
-        // presist datastructure
-        //state.like.toggleLike(rid)
-
-        if(state.like.isLiked(rid)){       
-            state.like.unlikeRecipe(rid)
-            likeUI.removeLike(rid)
+    if(recipe){
+        if(state.like.isLiked(recipe)){       
+            state.like.removeItem(recipe)
+            likeUI.removeLike(recipe)
         }else{
-            state.like.likeRecipe(rid)
-            likeUI.renderLike(state.recipe)
+            state.like.addItem(recipe)
+            likeUI.renderLike(recipe)
         }
 
-        console.log(state.like.like);
-        //ui
-    
+        //toggle recipe like btn
+        likeUI.toggleLikeBtn(state.recipe, state.like.isLiked(recipe))
+
+        //Toggle Like Menu 
+        likeUI.toggleLikeMenu(state.like.getNumLikes())
     }
 }
 
@@ -137,8 +137,17 @@ window.addEventListener('load', () => {
     controlSearch()
     const recipeID = location.hash.replace('#', '')
 
+    
+    if(!state.like)
+    {
+        state.like = new Like()
+        state.like.restoreLikes()
+        state.like.like.forEach(el => likeUI.renderLike(el))
+        likeUI.toggleLikeMenu(state.like.getNumLikes() > 0)
+        
+    }
+    
     if (recipeID) contorlRecipe(recipeID)
-
 });
 
 //listen pagination btn (event delegation)
@@ -180,9 +189,9 @@ elements.recipeContainer.addEventListener('click', e => {
     }
 
     else if (e.target.matches('.recipe__love, .recipe__love *')) {
-        const rid = e.target.closest('button').parentElement.dataset.rid
-        //state.liketoggleLike(rid);
-        controlLike(rid)
+        //const rid = e.target.closest('button').parentElement.dataset.rid
+        //likeUI.liketoggleLike(rid);
+        controlLike(state.recipe)
     }
 })
 

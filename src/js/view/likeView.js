@@ -23,8 +23,18 @@ export const renderLike = recipe => {
 }
 
 
-export const removeLike = rid => {
-    const el = document.querySelector(`a[href="#${rid}"]`)
-    console.log(el);
+export const removeLike = recipe => {
+    const el = document.querySelector(`a[href="#${recipe.id}"]`)
     el.parentElement.removeChild(el)
 }
+
+export const toggleLikeMenu = flag => {
+    const el = elements.likeMenu
+    el.style.visibility = flag ? 'visible' : 'hidden'
+}
+
+export const toggleLikeBtn = (recipe, isLiked) => {
+    const btn = document.querySelector(`[data-likeItem="${recipe.id}"]`)
+    btn.href.baseVal = `img/icons.svg#icon-heart${ isLiked ? '' : '-outlined'}`
+}
+
